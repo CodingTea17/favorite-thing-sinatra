@@ -38,6 +38,22 @@ post('/') do
   erb(:list)
 end
 
+get('/update/:id') do
+  @the_chosen_one = Item.find(params[:id])
+  erb(:update)
+end
+
+post('/update/:id') do
+  n = params["name"]
+  r = params["rank"]
+
+  Item.find(params[:id]).name = n
+  Item.find(params[:id]).rank = r
+
+  @list = Item.sort
+  erb(:list)
+end
+
 get('/items/:id') do
   @item = Item.find(params[:id])
   erb(:item)
