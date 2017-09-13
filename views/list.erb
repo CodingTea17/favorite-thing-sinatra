@@ -1,3 +1,6 @@
+<% if @duplicate_error %>
+  <%= '<div class="alert alert-danger" role="alert">Cannot add due to duplicate ' + @duplicate_error + '. Please try another ' + @duplicate_error + '.</div>'%>
+<% end %>
 <h2>List O' Favorite Thangs</h2>
 
 <% @list.each do |item| %>

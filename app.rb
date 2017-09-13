@@ -10,18 +10,30 @@ get('/') do
 end
 
 post('/') do
-  name = params["name"]
-  rank = params["rank"]
-  # Item.all.each do |i|
-  #   if i.name.downcase == name.downcase or i.rank
-  #
-  #   else
-  #     item = Item.new(name)
-  #     item.save()
-  #   end
-  # end
-  item = Item.new(name, rank)
-  item.save()
+  n = params["name"]
+  r = params["rank"]
+  if Item.all.length > 0
+    Item.all.each do |i|
+      if i.name.downcase == n.downcase
+        puts "the name same"
+        @duplicate_error = "name"
+        break
+      else
+        if i.rank == r
+          @duplicate_error = "rank"
+          break
+        else
+          puts "else"
+          item = Item.new(n,r)
+          item.save()
+          break
+        end
+      end
+    end
+  else
+    item = Item.new(n,r)
+    item.save()
+  end
   @list = Item.sort
   erb(:list)
 end
