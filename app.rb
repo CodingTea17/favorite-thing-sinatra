@@ -10,29 +10,13 @@ get('/') do
 end
 
 post('/') do
-  n = params["name"]
-  r = params["rank"]
-  if Item.all.length > 0
-    Item.all.each do |i|
-      if i.name.downcase == n.downcase
-        puts "the name same"
-        @duplicate_error = "name"
-        break
-      else
-        if i.rank == r
-          @duplicate_error = "rank"
-          break
-        else
-          puts "else"
-          item = Item.new(n,r)
-          item.save()
-          break
-        end
-      end
-    end
-  else
-    item = Item.new(n,r)
+  name = params["name"]
+  rank = params["rank"]
+  if !Item.check_dup_name(name) and !Item.check_dup_rank(rank)
+    item = Item.new(name,rank)
     item.save()
+  else
+    @duplicate_error = "thing"
   end
   @list = Item.sort
   erb(:list)
@@ -44,11 +28,23 @@ get('/update/:id') do
 end
 
 post('/update/:id') do
-  n = params["name"]
-  r = params["rank"]
+  name = params["name"]
+  rank = params["rank"]
 
-  Item.find(params[:id]).name = n
-  Item.find(params[:id]).rank = r
+  backup_name = Item.find(params[:id]).name
+  backup_rank = Item.find(params[:id]).rank
+
+  Item.find(params[:id]).name = ""
+  Item.find(params[:id]).rank = ""
+
+  if !Item.check_dup_name(name) and !Item.check_dup_rank(rank)
+    Item.find(params[:id]).name = name
+    Item.find(params[:id]).rank = rank
+  else
+    Item.find(params[:id]).name = backup_name
+    Item.find(params[:id]).rank = backup_rank
+    @duplicate_error = "thing"
+  end
 
   @list = Item.sort
   erb(:list)

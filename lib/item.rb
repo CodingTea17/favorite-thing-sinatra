@@ -31,6 +31,26 @@ class Item
     end
   end
 
+  def self.check_dup_name(name)
+    candidate = name.downcase
+    @@list.each do |item|
+      if item.name.downcase == candidate
+        return true
+      end
+    end
+    return false
+  end
+
+  def self.check_dup_rank(rank)
+    candidate = rank.to_i
+    @@list.each do |item|
+      if item.rank.to_i == candidate
+        return true
+      end
+    end
+    return false
+  end
+
   def save()
     @@list.push(self)
   end
