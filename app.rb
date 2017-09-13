@@ -11,9 +11,18 @@ end
 
 post('/') do
   name = params["name"]
-  item = Item.new(name)
+  rank = params["rank"]
+  # Item.all.each do |i|
+  #   if i.name.downcase == name.downcase or i.rank
+  #
+  #   else
+  #     item = Item.new(name)
+  #     item.save()
+  #   end
+  # end
+  item = Item.new(name, rank)
   item.save()
-  @list = Item.all()
+  @list = Item.sort
   erb(:list)
 end
 

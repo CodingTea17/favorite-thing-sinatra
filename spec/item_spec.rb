@@ -27,19 +27,14 @@ RSpec.describe("Item") do
       expect(Item.all()).to(eq([item]))
     end
   end
-end
-
-RSpec.describe("#id") do
-  before() do
-   Item.clear()
-  end
-
-  it("increments an id by 1 each time a new item is added") do
-    item = Item.new("tacos")
-    item.save()
-    item2 = Item.new("pizza")
-    item2.save()
-    expect(item.id()).to eq(1)
-    expect(item2.id()).to eq(2)
+  describe("#id") do
+    it("increments an id by 1 each time a new item is added") do
+      item = Item.new("tacos")
+      item.save()
+      item2 = Item.new("pizza")
+      item2.save()
+      expect(item.id()).to eq(1)
+      expect(item2.id()).to eq(2)
+    end
   end
 end
